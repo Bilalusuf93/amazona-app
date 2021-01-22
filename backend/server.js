@@ -1,7 +1,14 @@
 import express from "express";
+import mongoose from "mongoose";
 import data from "./data.js";
+import userRouter from "./routers/userRouter.js";
 
 const app = express();
+mongoose.connect("mongodb://localhost/amazona", {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+  useCreateIndex: true,
+});
 
 app.get("/", (req, res) => {
   res.send("server is ready");
@@ -17,6 +24,9 @@ app.get("/api/products/:id", (req, res) => {
   res.send(product);
 });
 
+app.use("/api/users", userRouter);
+
+// eslint-disable-next-line no-undef
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
   console.log(`Server is running at=>${PORT}`);
